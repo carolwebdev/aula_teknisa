@@ -10,22 +10,22 @@ function getCountVisibleCards(){
 function updateResults(count){
     document.getElementById("countResult").textContent = count;
 }
-
-function filter(){
-    let {search, operation, language} = getFilterProperties();
+function filter() {
+    let {search, operation, languages} = getFilterProperties();
     let interval = setInterval((_) => {
         let[containerEl] = document.getElementsByClassName("container");
         let changedText = search !== getSearchValue();
         if(!changedText) clearInterval(interval);
-        if(containerEl && containerEl.children && !changeText){
-            let visibleCards = updateVisibleCards(containerEl, search, operation, languages);
+        if(containerEl && containerEl.children && !changedText) {
+            let visibleCards = updateVisibleCards(containerEl,search,operation, languages);
+            updateResults(visibleCards);
         }
-    }, 10000);
+    }, 1000);
 }
 
-function getFilterProperties(){
+function getFilterProperties() {
     let search = getSearchValue();
-    let [radio] = getSelectedRadio();
+    let[radio] = getSelectedRadio();
     let operation = radio.id == "1" ? "AND" : "OR";
     let languages = Array.from(getSelectedLanguages()).map((lang) => lang.name);
     return {
@@ -37,7 +37,7 @@ function getFilterProperties(){
 
 function getSearchValue(){
     let inputSearchEl = document.getElementById("nameSearch");
-    return inputSearchEl.value
+    return inputSearchEl.value;
 }
 
 function getSelectedRadio(){
@@ -45,11 +45,55 @@ function getSelectedRadio(){
 }
 
 function getSelectedLanguages(){
-    return Array.from(document.querySelectorAll('header input[type="checkbox"]:checked'))
-
+    return Array.from(document.querySelectorAll('header input[type="checkbox"]:checked'));
 }
 
-function updateVisibleCards(containerEl, search, operation, languages){
+function updateVisibleCards(containerEl, search, operation, selectedLanguages){
     let visibleCards = 0;
-    Array.from()
+    Array.from(containerEl.children).forEach((cardEl) => {
+        let [titleEl] = cardEl.getElementsByClassName("card-title");
+        let cardLanguages = Array.from(cardEl.getElementsByClassName("iconLanguage")).map((image) => image.name);
+        if(titleEl) {
+            let isMatchName = isMatchByName(titleEl.textContent, search);
+            if(!isMatchName && operation == "AND"){
+                hideCard(cardEl);
+            } else if(isMatchName && operation == "OR") {
+                showCard(cardEl);
+                visibleCards++;
+            } else if(isMatchName && operation == "AND"){
+                let isMatchLanguage = isMatchByLanguage(cardLanguages, selectedLanguages);
+                if(isMatchLanguage) {
+                    showCard(cardEl);
+                    visibleCards++;
+                } else{
+                    hideCard(cardEl);
+                }
+            } else if (!isMatchName && operation == "OR") {
+                let isMatchLanguage = isMatchByLanguage(cardLanguages, selectedLanguages);
+                if(isMatchLanguage){
+                    showCard(cardEl);
+                    visibleCards++;
+                } else {
+                    hideCard(cardEl);
+                }
+            }
+        }
+    });
+    return visibleCards;
+}
+
+function isMatchByName(textCard, textInput) {
+    return textCard.toLowerCase().includes(textInput.toLowerCase());
+}
+
+function isMatchByLanguage(cardLanguages, selectedLanguages){
+    return cardLanguages.some(cardLang => selectedLanguages.includes(cardLang));
+}
+
+function hideCard(card) {
+    card.style.display = "none";
+};
+
+function showCard(card) {
+    card.style.display = "flex";
 }

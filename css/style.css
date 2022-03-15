@@ -108,3 +108,27 @@ h3 {
     flex: none;
     margin: 0;
 }
+
+.modal-container {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left:0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: white;
+    width: 60%;
+    min-width: 300px;
+    padding: 40px;
+    box-shadow: 0 4px 4px white;
+    position: relative;
+    display: flex;
+    line-height: 180%;
+}

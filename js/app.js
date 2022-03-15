@@ -97,3 +97,28 @@ function hideCard(card) {
 function showCard(card) {
     card.style.display = "flex";
 }
+
+const modalTemplate = `
+      <div class="modal">
+        <button class="fechar">x</button>
+        <div class="profilePictureModal">
+            <img class="image" name ="image-profile" src="__DEV_IMAGE__" alt="desenvolvedor" />
+        </div>
+        <div class="profileDescriptionModal">
+            <div style="display: flex; flex-direction: column">
+                <h2 class="card-title" name="devname">__DEV_NAME__</h2>
+                <span name="age">__DEV_AGE__</span>
+                <span name="description">__DEV_DESCRIPTION__</span>
+                <span name="description">__DEV_DESCRIPTION_ABILITY__</span>
+                <h3>Contato</h3>
+                <span name="mail">Email: <a href="#">__DEV_MAIL__</a></span>
+                <span name="git">Github: <a href="#">__DEV_GIT__</a></span>
+                <span name="phone">Telefone:__DEV_PHONE__</span>
+            </div>
+            <div class="languages">
+            <h3>Linguagens</h3>
+                __DEV_LANGUAGES__
+            </div>
+        </div>
+      </div>
+`;

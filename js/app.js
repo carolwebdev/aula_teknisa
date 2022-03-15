@@ -13,13 +13,21 @@ function updateResults(count){
 
 function filter(){
     let {search, operation, language} = getFilterProperties();
+    let interval = setInterval((_) => {
+        let[containerEl] = document.getElementsByClassName("container");
+        let changedText = search !== getSearchValue();
+        if(!changedText) clearInterval(interval);
+        if(containerEl && containerEl.children && !changeText){
+            let visibleCards = updateVisibleCards(containerEl, search, operation, languages);
+        }
+    }, 10000);
 }
 
 function getFilterProperties(){
     let search = getSearchValue();
     let [radio] = getSelectedRadio();
     let operation = radio.id == "1" ? "AND" : "OR";
-    let languages = ArrayFrom(getSelectedLanguages()).map((lang) => lang.name);
+    let languages = Array.from(getSelectedLanguages()).map((lang) => lang.name);
     return {
         search,
         operation,
@@ -39,4 +47,9 @@ function getSelectedRadio(){
 function getSelectedLanguages(){
     return Array.from(document.querySelectorAll('header input[type="checkbox"]:checked'))
 
+}
+
+function updateVisibleCards(containerEl, search, operation, languages){
+    let visibleCards = 0;
+    Array.from()
 }

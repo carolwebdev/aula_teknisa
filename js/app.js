@@ -122,3 +122,31 @@ const modalTemplate = `
         </div>
       </div>
 `;
+
+Array.from(document.querySelectorAll('.card')).forEach(card => {
+    card.addEventListener('click', () => iniciaModal('modal-profile', event.currentTarget.id));
+});
+
+function iniciaModal(modalId, cardId){
+    fillModal(getUserInfo(cardId));
+    const modal = document.getElementById(modalId);
+    if(modal){
+        modal.classList.add("mostrar");
+        modal.addEventListener("click", (e) => {
+            if(e.target.id == modalId || e.target.className == "fechar"){
+                modal.classList.remove("mostrar");
+            }
+        });
+    }
+}
+
+function getUserInfo(id) {
+    let cardUser = document.getElementById(id);
+    let userData = {};
+    if(cardUser) {
+        userData = ['age', 'mail', 'phone', 'github', 'username', 'description', 'descriptionAbility'].reduce((acc,name) => {
+            acc [name] = getTextContentByName(carduser, name);
+            return acc;
+        }, {});
+    }
+}
